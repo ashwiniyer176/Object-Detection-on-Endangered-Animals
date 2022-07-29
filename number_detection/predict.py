@@ -133,8 +133,7 @@ def draw_predictions(IMAGE_PATH, result, threshold=0, padding=0):
             img, (x - padding, y - padding), (w + padding, h + padding), (0, 255, 0), 2
         )
         # print(x-padding,y-padding,w+padding,h+padding)
-    cv2.imshow("image", img)
-    cv2.waitKey()
+        return img
 
 
 def save_output_to_folder(IMAGE_PATH, path_to_save, results, threshold=0.2, values=[]):
@@ -172,20 +171,22 @@ if __name__ == "__main__":
             IMAGE_PATH,
             num_boxes=1,
         )
-        label_id_offset = 1
-        image_np = cv2.imread(IMAGE_PATH)
-        image_np_with_detections = image_np.copy()
-        output_image = viz_utils.visualize_boxes_and_labels_on_image_array(
-            image_np_with_detections,
-            results["detection_boxes"],
-            results["detection_classes"] + label_id_offset,
-            results["detection_scores"],
-            category_index,
-            use_normalized_coordinates=False,
-            max_boxes_to_draw=8,
-            min_score_thresh=0.3,
-            agnostic_mode=False,
-        )
+        output_image = draw_predictions(IMAGE_PATH, results)
+        # label_id_offset = 1
+        # image_np = cv2.imread(IMAGE_PATH)
+
+        # image_np_with_detections = image_np.copy()
+        # output_image = viz_utils.visualize_boxes_and_labels_on_image_array(
+        #     image_np_with_detections,
+        #     results["detection_boxes"],
+        #     results["detection_classes"] + label_id_offset,
+        #     results["detection_scores"],
+        #     category_index,
+        #     use_normalized_coordinates=False,
+        #     max_boxes_to_draw=8,
+        #     min_score_thresh=0.3,
+        #     agnostic_mode=False,
+        # )
         cv2.imwrite(
             f"C:/Users/Ashwin/Projects/Object-Detection-on-Animals/output/predicted_{input_img}___{idx}.jpg",
             output_image,
